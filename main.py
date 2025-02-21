@@ -120,12 +120,18 @@ def streamlit_ui():
 
     with col3:
         if st.button("Process Recording"):
+
             response = requests.post("http://127.0.0.1:5000/process_audio")
-            data = response.json()
-            st.write("Recording processed...")
-            st.write("Original Text:", data.get("input_text"))
-            st.write("Corrected Text:", data.get("output_text"))
-            st.audio(data.get("speech_file"))
+            # Debugging step: Print response before parsing
+            st.write("Raw Response:", response.text)
+            try:
+                data = response.json()
+                st.write("Recording processed...")
+                st.write("Original Text:", data.get("input_text"))
+                st.write("Corrected Text:", data.get("output_text"))
+                st.audio(data.get("speech_file"))
+            except requests.exceptions.JSONDecodeError:
+                st.error("Error: Received invalid response from server. Check Flask logs.")
 
 
 if __name__ == "__main__":

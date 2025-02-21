@@ -22,9 +22,8 @@ RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir sounddevice
 
-# Expose Flask (5000) and Streamlit (8501) ports
-EXPOSE 5000
+# Expose Streamlit port
 EXPOSE 8501
 
-# Start Flask and Streamlit
-CMD ["sh", "-c", "python main.py & streamlit run main.py --server.port=8501 --server.address=0.0.0.0 --server.enableCORS=false"]
+# Start Streamlit
+CMD ["streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.enableCORS=false"]
