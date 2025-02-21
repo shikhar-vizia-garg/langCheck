@@ -106,18 +106,26 @@ def process_audio():
 # Streamlit Interface
 def streamlit_ui():
     st.title("Laura Lite")
-    if st.button("Start Recording"):
-        requests.post("http://127.0.0.1:5000/start_recording")
+    col1, col2, col3 = st.columns(3)  # Arrange buttons horizontally
 
-    if st.button("Stop Recording"):
-        requests.post("http://127.0.0.1:5000/stop_recording")
+    with col1:
+        if st.button("Start Recording"):
+            requests.post("http://127.0.0.1:5000/start_recording")
+            st.write("Recording started...")
 
-    if st.button("Process Recording"):
-        response = requests.post("http://127.0.0.1:5000/process_audio")
-        data = response.json()
-        st.write("Original Text:", data.get("input_text"))
-        st.write("Corrected Text:", data.get("output_text"))
-        st.audio(data.get("speech_file"))
+    with col2:
+        if st.button("Stop Recording"):
+            requests.post("http://127.0.0.1:5000/stop_recording")
+            st.write("Recording stopped...")
+
+    with col3:
+        if st.button("Process Recording"):
+            response = requests.post("http://127.0.0.1:5000/process_audio")
+            data = response.json()
+            st.write("Recording processed...")
+            st.write("Original Text:", data.get("input_text"))
+            st.write("Corrected Text:", data.get("output_text"))
+            st.audio(data.get("speech_file"))
 
 
 if __name__ == "__main__":
