@@ -1,8 +1,9 @@
-# Use the official Python image
+# Use an official Python runtime as a base image
 FROM python:3.11
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+# Install system dependencies (including PortAudio)
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libportaudio2 \
     libportaudio-dev \
     && rm -rf /var/lib/apt/lists/*
@@ -10,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy project files
+# Copy all project files into the container
 COPY . /app
 
 # Install Python dependencies
